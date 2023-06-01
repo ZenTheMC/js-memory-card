@@ -1,13 +1,23 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import GameBoard from './components/GameBoard';
 import Scoreboard from './components/Scoreboard';
+import styles from './styles/App.module.css';
 
 function App() {
   // Initialize card data
   const initialCards = [
-    { id: 1, image: 'image1.png', clicked: false },
-    { id: 2, image: 'image2.png', clicked: false },
-    // Add more cards as needed
+    { id: 1, image: '/images/mankey.jpg', clicked: false },
+    { id: 2, image: '/images/psyduck.jpg', clicked: false },
+    { id: 3, image: '/images/bulbasaur.jpg', clicked: false },
+    { id: 4, image: '/images/squirtle.jpg', clicked: false },
+    { id: 5, image: '/images/charmander.jpg', clicked: false },
+    { id: 6, image: '/images/venusaur.jpg', clicked: false },
+    { id: 7, image: '/images/blastoise.jpg', clicked: false },
+    { id: 8, image: '/images/charizard.jpg', clicked: false },
+    { id: 9, image: '/images/golem.jpg', clicked: false },
+    { id: 10, image: '/images/alakazam.jpg', clicked: false },
+    { id: 11, image: '/images/nidoking.jpg', clicked: false },
+    { id: 12, image: '/images/nidoqueen.jpg', clicked: false },
   ];
 
   // State variables
@@ -16,15 +26,15 @@ function App() {
   const [bestScore, setBestScore] = useState(0);
 
   // Function to shuffle cards
-  const shuffleCards = useCallback(() => {
+  const shuffleCards = useCallback((cards) => {
     let shuffledCards = [...cards].sort(() => Math.random() - 0.5);
     setCards(shuffledCards);
-  }, [cards]);
+  }, []);
 
   // Effect to shuffle cards when component mounts
   useEffect(() => {
-    shuffleCards();
-  }, [shuffleCards]);
+    shuffleCards(cards);
+  }, [shuffleCards, cards]);
 
   // Function to handle when a card is clicked
   const handleCardClick = (id) => {
@@ -43,11 +53,12 @@ function App() {
         setBestScore(currentScore + 1);
       }
     }
-    shuffleCards();
+    shuffleCards(cards);
   };
 
   return (
-    <div className="App">
+    <div className={styles.App}>
+    <h1>Memory Game</h1>
       <Scoreboard currentScore={currentScore} bestScore={bestScore} />
       <GameBoard cards={cards} onCardClick={handleCardClick} />
     </div>
