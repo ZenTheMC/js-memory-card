@@ -3,6 +3,7 @@ import GameBoard from './components/GameBoard';
 import Scoreboard from './components/Scoreboard';
 import styles from './styles/App.module.css';
 
+// NOT ALL CARDS ARE SHOWING UP!
 function App() {
   // Initialize card data
   const initialCards = [
@@ -26,15 +27,15 @@ function App() {
   const [bestScore, setBestScore] = useState(0);
 
   // Function to shuffle cards
-  const shuffleCards = useCallback((cards) => {
-    let shuffledCards = [...cards].sort(() => Math.random() - 0.5);
-    setCards(shuffledCards);
+  const shuffleCards = useCallback(() => {
+    setCards(cards => [...cards].sort(() => Math.random() - 0.5));
   }, []);
 
   // Effect to shuffle cards when component mounts
   useEffect(() => {
-    shuffleCards(cards);
-  }, [shuffleCards, cards]);
+    shuffleCards();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only runs once when the component mounts, cause empty array, but linting error. Breaks game causing immediate and infinite shuffle if fixed. That's why there's an ignore like above useEffect
 
   // Function to handle when a card is clicked
   const handleCardClick = (id) => {
@@ -53,7 +54,7 @@ function App() {
         setBestScore(currentScore + 1);
       }
     }
-    shuffleCards(cards);
+    shuffleCards();
   };
 
   return (
